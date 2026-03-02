@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  data_interface:
+    build:
+      context: .
+      dockerfile: data_interface.Dockerfile
+    container_name: data_interface_api
+    ports:
+      - "9876:9876"
+    environment:
+      POSTGRES_URL: main-database-instance:5432
+      POSTGRES_USER: api
+      POSTGRES_PASSWORD: supersecret
+      APP_PORT: 9876
+      CONFIG_PATH: /interface/config/dynamic_mapping.json
+    volumes:
+      - /srv/data-api_interface/config:/interface/config:ro,Z
+    networks:
+      - labgroup0
+
+networks:
+  labgroup0:
+    external: true
